@@ -11,3 +11,7 @@
 # These packages are pinned because their next version would require django 2.0.0
 django-guardian==2.0.0
 django-model-utils<4.0.0
+
+# Requires Python 3.6+
+mock<4
+zipp<2

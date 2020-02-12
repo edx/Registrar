@@ -17,5 +17,6 @@ edx-auth-backends
 edx-django-release-util
 edx-drf-extensions
 edx-rest-api-client==1.9.2
+kombu<3.1
 pytz
 redis==2.8
