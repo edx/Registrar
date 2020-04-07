@@ -2,6 +2,7 @@
 Mixins for the public V1 REST API.
 """
 import uuid
+import waffle
 from collections.abc import Iterable
 
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
@@ -274,6 +275,11 @@ class EnrollmentMixin(ProgramSpecificViewMixin):
         """
         self.validate_enrollment_data(self.request.data)
         if course_id:
+            if not waffle.flag_is_active(self.request, 'enable_course_role_management'):
+                for enrollment in self.request.data:
+                    if isinstance(enrollment.get('course_staff'), bool):
+                        self.add_tracking_data(failure='course_staff not accepted since role assignment is not enabled')
+                        raise Http403()
             good, bad, results = write_course_run_enrollments(
                 self.request.method,
                 self.program.discovery_uuid,
@@ -323,3 +329,9 @@ class EnrollmentMixin(ProgramSpecificViewMixin):
                 raise ValidationError(
                     'expected request dicts to have string value for "status"'
                 )
+            if enrollment.get('course_staff') is not None:
+                if not isinstance(enrollment.get('course_staff'), bool):
+                    self.add_tracking_data(failure='bad_request')
+                    raise ValidationError(
+                        'expected request dicts to have boolean value for "course_staff"'
+                    )
