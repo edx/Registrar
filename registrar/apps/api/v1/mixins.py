@@ -278,8 +278,8 @@ class EnrollmentMixin(ProgramSpecificViewMixin):
             if not waffle.flag_is_active(self.request, 'enable_course_role_management'):
                 for enrollment in self.request.data:
                     if isinstance(enrollment.get('course_staff'), bool):
-                        self.add_tracking_data(failure='course_staff not accepted since role assignment is not enabled')
-                        raise Http403()
+                        # self.add_tracking_data(failure='course_staff not accepted since role assignment is not enabled')
+                        raise PermissionDenied('course_staff not accepted since role assignment is not enabled')
             good, bad, results = write_course_run_enrollments(
                 self.request.method,
                 self.program.discovery_uuid,
