@@ -1,4 +1,5 @@
 """ Tests for API views. """
+from contextlib import contextmanager
 import csv
 import json
 import logging
@@ -6,7 +7,7 @@ import uuid
 from io import StringIO
 from posixpath import join as urljoin
 
-from waffle.testutils import override_flag
+from waffle import get_waffle_flag_model
 
 import boto3
 import ddt
@@ -70,6 +71,19 @@ from ..views import CourseRunEnrollmentUploadView, ProgramEnrollmentUploadView
 
 ACTIVE_CURRICULUM_UUID = '77777777-4444-2222-1111-000000000000'
 INACTIVE_CURRICULUM_UUID = '66666666-4444-2222-1111-000000000000'
+
+
+@contextmanager
+def get_waffle_flag(flag_name, is_active, groups):
+    waffle_model = get_waffle_flag_model()
+    waffle_flag = waffle_model.objects.create(name=flag_name)
+    for group in groups:
+        waffle_flag.groups.add(group)
+    waffle_flag.everyone = is_active
+    waffle_flag.save()
+    waffle_flag.flush()
+    yield waffle_flag
+    waffle_flag.delete()
 
 
 class RegistrarAPITestCase(TrackTestMixin, APITestCase):
@@ -1660,7 +1674,7 @@ class ProgramCourseEnrollmentWriteMixin:
                 program_key=self.cs_program.key,
                 course_id=course_id,
         ):
-            with override_flag('enable_course_role_management', active=True):
+            with get_waffle_flag('enable_course_role_management', True, [self.stem_admin_group]) as overrider:
                 response = self.request(
                     self.method, self.get_url(course_id=course_id), self.stem_admin, req_data
                 )
