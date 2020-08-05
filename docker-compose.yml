@@ -1,0 +1,60 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.6
+    container_name: registrar.db
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: "registrar"
+    networks:
+      - devstack_default
+    volumes:
+      - registrar_mysql:/var/lib/mysql
+  redis:
+    image: "redis"
+    container_name: "registrar.redis"
+    tty: true
+    networks:
+      - devstack_default
+  memcache:
+    image: memcached:1.4.24
+    container_name: registrar.memcache
+    networks:
+      - devstack_default
+  app:
+    image: openedx/registrar:devstack
+    build: .
+    container_name: registrar.app
+    command: bash -c 'while true; do gunicorn --reload --workers=2 --name registrar -b :18734 -c /edx/app/registrar/registrar/docker_gunicorn_configuration.py --log-file - --max-requests=1000 registrar.wsgi:application; sleep 2; done'
+    environment:
+      DJANGO_SETTINGS_MODULE: registrar.settings.devstack
+    ports:
+      - "18734:18734"
+    depends_on:
+      - db
+    volumes:
+      - .:/edx/app/registrar
+    networks:
+      - devstack_default
+  registrar-worker:
+    image: openedx/registrar:devstack
+    build: .
+    container_name: registrar-worker
+    command: bash -c 'celery -A registrar worker -l debug -c 2'
+    depends_on:
+      - db
+      - redis
+    environment:
+      DJANGO_SETTINGS_MODULE: registrar.settings.devstack
+    ports:
+      - "18735:18735"
+    volumes:
+      - .:/edx/var/registrar/
+
+networks:
+  devstack_default:
+    external: true
+
+volumes:
+  registrar_mysql:
