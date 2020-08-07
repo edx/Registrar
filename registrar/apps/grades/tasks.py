@@ -40,7 +40,7 @@ def get_course_run_grades(self, job_id, user_id, file_format, program_key, inter
     except ValidationError as err:
         post_job_failure(
             job_id,
-            "Invalid grade data from LMS: {}".format(err),
+            f"Invalid grade data from LMS: {err}",
         )
         return
 
@@ -58,5 +58,5 @@ def get_course_run_grades(self, job_id, user_id, file_format, program_key, inter
     elif file_format == 'csv':
         serialized = serialize_course_run_grades_to_csv(grades)
     else:
-        raise ValueError('Invalid file_format: {}'.format(file_format))
+        raise ValueError(f'Invalid file_format: {file_format}')
     post_job_success(job_id, serialized, file_format, text=code_str)

@@ -7,24 +7,12 @@ from itertools import groupby
 from posixpath import join as urljoin
 
 from django.conf import settings
-from rest_framework.status import (
-    HTTP_200_OK,
-    HTTP_201_CREATED,
-    HTTP_207_MULTI_STATUS,
-    HTTP_422_UNPROCESSABLE_ENTITY,
-)
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_207_MULTI_STATUS, HTTP_422_UNPROCESSABLE_ENTITY
 
 from registrar.apps.core.models import Program
-from registrar.apps.core.rest_utils import (
-    do_batched_lms_write,
-    get_all_paginated_results,
-)
+from registrar.apps.core.rest_utils import do_batched_lms_write, get_all_paginated_results
 
-from .constants import (
-    ENROLLMENT_ERROR_DUPLICATED,
-    ENROLLMENT_ERROR_INTERNAL,
-    LMS_ENROLLMENT_WRITE_MAX_SIZE,
-)
+from .constants import ENROLLMENT_ERROR_DUPLICATED, ENROLLMENT_ERROR_INTERNAL, LMS_ENROLLMENT_WRITE_MAX_SIZE
 from .serializers import (
     CourseEnrollmentSerializer,
     CourseEnrollmentWithCourseStaffSerializer,

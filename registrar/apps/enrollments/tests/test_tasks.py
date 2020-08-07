@@ -3,6 +3,7 @@ Unit tests for the enrollment.tasks module.
 """
 import json
 from collections import OrderedDict, namedtuple
+from unittest.mock import patch
 from uuid import UUID
 
 import boto3
@@ -10,16 +11,12 @@ import ddt
 import moto
 from django.conf import settings
 from django.test import TestCase
-from mock import patch
 from requests.exceptions import HTTPError
 from rest_framework.exceptions import ValidationError
 
 from registrar.apps.core.discovery_cache import ProgramDetails
 from registrar.apps.core.filestore import get_enrollment_uploads_filestore
-from registrar.apps.core.tests.mixins import (
-    BaseTaskTestMixin,
-    S3MockEnvVarsMixin,
-)
+from registrar.apps.core.tests.mixins import BaseTaskTestMixin, S3MockEnvVarsMixin
 from registrar.apps.core.tests.utils import patch_discovery_program_details
 
 from .. import tasks
@@ -72,7 +69,7 @@ class ListEnrollmentTaskTestMixin(BaseTaskTestMixin):
             mock_get_enrollments.side_effect = error
             task = self.spawn_task()  # pylint: disable=assignment-from-no-return
             task.wait()
-        expected_msg = "HTTP error {} when getting enrollments at registrar.edx.org".format(status_code)
+        expected_msg = f"HTTP error {status_code} when getting enrollments at registrar.edx.org"
         self.assert_failed(expected_msg)
 
     def test_invalid_data(self):

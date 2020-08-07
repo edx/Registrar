@@ -56,7 +56,7 @@ class FilestoreBase:
             with self.backend.open(full_path, 'r') as f:
                 content = f.read()
                 return content if isinstance(content, str) else content.decode('utf-8')
-        except IOError as e:
+        except OSError as e:
             logger.exception(
                 "Could not read file stored at path {!r} in bucket {!r}: {}".format(
                     full_path, self.bucket, e
@@ -198,5 +198,5 @@ def get_filestore(bucket, path_prefix):
         return S3Filestore(bucket, path_prefix)
     else:  # pragma: no cover
         raise ImproperlyConfigured(
-            'Unsupported storage backend for filestore: {}'.format(class_name)
+            f'Unsupported storage backend for filestore: {class_name}'
         )

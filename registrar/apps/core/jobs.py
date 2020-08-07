@@ -82,7 +82,7 @@ def get_job_status(user, job_id):
     try:
         task_status = UserTaskStatus.objects.get(task_id=job_id)
     except UserTaskStatus.DoesNotExist:
-        raise ObjectDoesNotExist("No such job: {}".format(job_id))
+        raise ObjectDoesNotExist(f"No such job: {job_id}")
     if user.has_perm(JOB_GLOBAL_READ) or user == task_status.user:
         return _make_job_status(task_status)
     else:
@@ -172,11 +172,11 @@ def post_job_success(job_id, results, file_extension, text=None):
         file_extension (str): Desired file extension for result file(e.g. 'json').
         text (str): [optional] string to write to `text` field of result.
     """
-    result_path = "{}.{}".format(job_id, file_extension)
+    result_path = f"{job_id}.{file_extension}"
     result_url = result_filestore.store(result_path, results)
     task_status = UserTaskStatus.objects.get(task_id=job_id)
     _affirm_job_in_progress(job_id, task_status)
-    log_message = "Job {} succeeded with result URL {}".format(job_id, result_url)
+    log_message = f"Job {job_id} succeeded with result URL {result_url}"
     logger.info(log_message)
     UserTaskArtifact.objects.create(
         status=task_status,
@@ -200,7 +200,7 @@ def post_job_failure(job_id, message):
     """
     task_status = UserTaskStatus.objects.get(task_id=job_id)
     _affirm_job_in_progress(job_id, task_status)
-    log_message = "Job {} failed. {}".format(job_id, message)
+    log_message = f"Job {job_id} failed. {message}"
     logger.error(log_message)
     task_status.fail(log_message)  # Creates UserTaskArtifact with name "Error"
 
@@ -216,5 +216,5 @@ def _affirm_job_in_progress(job_id, task_status):
     if task_status.state != UserTaskStatus.IN_PROGRESS:  # pragma: no cover
         raise ValueError(
             'Job can only be marked as Succeeded from state In Progress' +
-            '(job_id = {})'.format(job_id)
+            f'(job_id = {job_id})'
         )

@@ -8,13 +8,7 @@ from guardian.shortcuts import get_perms
 from social_django.models import UserSocialAuth
 
 from .. import permissions as perm
-from ..models import (
-    Organization,
-    OrganizationGroup,
-    Program,
-    ProgramOrganizationGroup,
-    User,
-)
+from ..models import Organization, OrganizationGroup, Program, ProgramOrganizationGroup, User
 from .factories import (
     OrganizationFactory,
     OrganizationGroupFactory,
@@ -52,7 +46,7 @@ class UserTests(TestCase):
         first_name = 'Jerry'
         last_name = 'Seinfeld'
         user = G(User, full_name=None, first_name=first_name, last_name=last_name)
-        expected = '{first_name} {last_name}'.format(first_name=first_name, last_name=last_name)
+        expected = f'{first_name} {last_name}'
         self.assertEqual(user.get_full_name(), expected)
 
         user = G(User, full_name=full_name, first_name=first_name, last_name=last_name)
@@ -92,7 +86,7 @@ class OrganizationGroupTests(TestCase):
     """ Tests for OrganizationGroup model """
 
     def setUp(self):
-        super(OrganizationGroupTests, self).setUp()
+        super().setUp()
         self.organization = OrganizationFactory()
         self.user = UserFactory()
 
@@ -187,7 +181,7 @@ class ProgramOrganizationGroupTests(TestCase):
     """ Tests for ProgramOrganizationGroup model """
 
     def setUp(self):
-        super(ProgramOrganizationGroupTests, self).setUp()
+        super().setUp()
         self.program = ProgramFactory()
         self.user = UserFactory()
 

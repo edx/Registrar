@@ -61,7 +61,7 @@ class Command(BaseCommand):
             raise CommandError('No authoring org keys found for program {}'.format(
                 program_details.get('uuid'))
             )
-        logger.info('Authoring Organizations are {}'.format(org_keys))
+        logger.info(f'Authoring Organizations are {org_keys}')
         return org_keys
 
     def get_org(self, org_keys):
@@ -72,11 +72,11 @@ class Command(BaseCommand):
         for org_key in org_keys:
             try:
                 org = Organization.objects.get(key=org_key)
-                logger.info('Using {} as program organization'.format(org))
+                logger.info(f'Using {org} as program organization')
                 return org
             except Organization.DoesNotExist:
-                logger.info('Org {} not found in registrar'.format(org_key))
-        raise CommandError('None of the authoring organizations {} were found in Registrar'.format(org_keys))
+                logger.info(f'Org {org_key} not found in registrar')
+        raise CommandError(f'None of the authoring organizations {org_keys} were found in Registrar')
 
     # pylint: disable=missing-function-docstring
     def create_or_modify_program(self, org, program_details, program_uuid, program_key):
@@ -91,4 +91,4 @@ class Command(BaseCommand):
             program.key = program_key
             program.save()
         verb = 'Created' if created else 'Modified existing'
-        logger.info('{} program (key={} uuid={} managing_org={})'.format(verb, program_key, program_uuid, org.key))
+        logger.info(f'{verb} program (key={program_key} uuid={program_uuid} managing_org={org.key})')

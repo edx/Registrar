@@ -4,7 +4,6 @@ branches:
 
 language: python
 python:
-    - 3.5.2
     - 3.8
 env:
 - TOXENV=django22

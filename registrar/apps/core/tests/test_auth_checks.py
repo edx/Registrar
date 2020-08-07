@@ -7,11 +7,7 @@ from django.core.cache import cache
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
-from ..auth_checks import (
-    get_api_permissions_by_program,
-    get_programs_by_api_permission,
-    get_user_organizations,
-)
+from ..auth_checks import get_api_permissions_by_program, get_programs_by_api_permission, get_user_organizations
 from ..constants import PROGRAM_CACHE_KEY_TPL
 from ..models import Organization
 from ..permissions import (

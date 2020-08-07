@@ -6,12 +6,7 @@ from posixpath import join as urljoin
 
 from django.conf import settings
 from rest_framework.exceptions import ValidationError
-from rest_framework.status import (
-    HTTP_200_OK,
-    HTTP_204_NO_CONTENT,
-    HTTP_207_MULTI_STATUS,
-    HTTP_422_UNPROCESSABLE_ENTITY,
-)
+from rest_framework.status import HTTP_200_OK, HTTP_204_NO_CONTENT, HTTP_207_MULTI_STATUS, HTTP_422_UNPROCESSABLE_ENTITY
 
 from registrar.apps.core.rest_utils import get_all_paginated_responses
 

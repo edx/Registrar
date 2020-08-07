@@ -2,10 +2,10 @@
 
 import json
 from functools import wraps
+from unittest.mock import patch
 
 import responses
 from django.conf import settings
-from mock import patch
 
 from ..discovery_cache import ProgramDetails
 

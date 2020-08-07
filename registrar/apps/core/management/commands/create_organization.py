@@ -27,7 +27,7 @@ class Command(BaseCommand):
             dest='groups',
             action='append',
             default=[],
-            help='Create an OrganizationGroup. Args: role [name] \n acceptable roles: {}'.format(self.role_names)
+            help=f'Create an OrganizationGroup. Args: role [name] \n acceptable roles: {self.role_names}'
         )
 
     # pylint: disable=arguments-differ
@@ -45,7 +45,7 @@ class Command(BaseCommand):
                 raise CommandError('--group only accepts one or two arguments')
             role = group[0]
             if group[0] not in self.role_names:
-                raise CommandError('first argument to --group must be one of {}'.format(self.role_names))
+                raise CommandError(f'first argument to --group must be one of {self.role_names}')
             group_name = None
             if len(group) == 2:
                 group_name = group[1]
@@ -62,13 +62,13 @@ class Command(BaseCommand):
                 discovery_uuid=uuid.uuid4(),
             )
         except Exception as e:
-            raise CommandError('Unable to create Organization. cause: {}'.format(e))
-        logger.info('Created Organization {}'.format(org.key))
+            raise CommandError(f'Unable to create Organization. cause: {e}')
+        logger.info(f'Created Organization {org.key}')
         return org
 
     def create_org_group(self, org, group_role, group_name):  # pylint: disable=missing-function-docstring
         if not group_name:
-            group_name = "{}_{}".format(org.name, group_role)
+            group_name = f"{org.name}_{group_role}"
         try:
             OrganizationGroup.objects.create(
                 name=group_name,
@@ -76,5 +76,5 @@ class Command(BaseCommand):
                 role=group_role,
             )
         except Exception as e:
-            raise CommandError('Unable to create OrganizationGroup {}. cause: {}'.format(group_name, e))
-        logger.info('Created OrganizationGroup {} with role {}'.format(group_name, group_role))
+            raise CommandError(f'Unable to create OrganizationGroup {group_name}. cause: {e}')
+        logger.info(f'Created OrganizationGroup {group_name} with role {group_role}')

@@ -8,10 +8,7 @@ from rest_framework import serializers
 from user_tasks.models import UserTaskStatus
 
 from registrar.apps.core.models import Program
-from registrar.apps.enrollments.constants import (
-    COURSE_ENROLLMENT_STATUSES,
-    PROGRAM_ENROLLMENT_STATUSES,
-)
+from registrar.apps.enrollments.constants import COURSE_ENROLLMENT_STATUSES, PROGRAM_ENROLLMENT_STATUSES
 
 
 # pylint: disable=abstract-method

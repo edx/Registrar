@@ -1,9 +1,7 @@
 """ Internal utility API views """
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from edx_rest_framework_extensions.auth.jwt.authentication import (
-    JwtAuthentication,
-)
+from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response

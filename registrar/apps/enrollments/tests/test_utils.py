@@ -6,16 +6,9 @@ import ddt
 from django.test import TestCase
 from user_tasks.models import UserTaskStatus
 
-from registrar.apps.core.tests.factories import (
-    OrganizationFactory,
-    ProgramFactory,
-    UserFactory,
-)
+from registrar.apps.core.tests.factories import OrganizationFactory, ProgramFactory, UserFactory
 
-from ..utils import (
-    build_enrollment_job_status_name,
-    is_enrollment_write_blocked,
-)
+from ..utils import build_enrollment_job_status_name, is_enrollment_write_blocked
 
 
 class EnrollmentJobTests(TestCase):

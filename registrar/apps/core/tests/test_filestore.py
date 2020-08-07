@@ -2,10 +2,10 @@
 
 from itertools import product
 from pathlib import PurePath
+from unittest import mock
 
 import boto3
 import ddt
-import mock
 import moto
 import requests
 from botocore.exceptions import ClientError

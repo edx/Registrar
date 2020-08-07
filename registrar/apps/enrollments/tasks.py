@@ -74,7 +74,7 @@ def list_program_enrollments(self, job_id, user_id, file_format, program_key, in
     except ValidationError as err:
         post_job_failure(
             job_id,
-            "Invalid enrollment data from LMS: {}".format(err),
+            f"Invalid enrollment data from LMS: {err}",
         )
         return
 
@@ -83,7 +83,7 @@ def list_program_enrollments(self, job_id, user_id, file_format, program_key, in
     elif file_format == 'csv':
         serialized = serialize_program_enrollments_to_csv(enrollments, include_username_email)
     else:
-        raise ValueError('Invalid file_format: {}'.format(file_format))
+        raise ValueError(f'Invalid file_format: {file_format}')
     post_job_success(job_id, serialized, file_format)
 
 
@@ -123,7 +123,7 @@ def list_course_run_enrollments(
     except ValidationError as err:
         post_job_failure(
             job_id,
-            "Invalid enrollment data from LMS: {}".format(err),
+            f"Invalid enrollment data from LMS: {err}",
         )
         return
 
@@ -134,7 +134,7 @@ def list_course_run_enrollments(
                       if course_role_management_enabled
                       else serialize_course_run_enrollments_to_csv(enrollments))
     else:
-        raise ValueError('Invalid file_format: {}'.format(file_format))
+        raise ValueError(f'Invalid file_format: {file_format}')
     post_job_success(job_id, serialized, file_format)
 
 
@@ -166,7 +166,7 @@ def list_all_course_run_enrollments(self, job_id, user_id, file_format, program_
         except ValidationError as err:
             post_job_failure(
                 job_id,
-                "Invalid enrollment data from LMS: {}".format(err),
+                f"Invalid enrollment data from LMS: {err}",
             )
             return
 
@@ -177,7 +177,7 @@ def list_all_course_run_enrollments(self, job_id, user_id, file_format, program_
     elif file_format == 'csv':
         serialized = serialize_course_run_enrollments_to_csv(results)
     else:
-        raise ValueError('Invalid file_format: {}'.format(file_format))
+        raise ValueError(f'Invalid file_format: {file_format}')
     post_job_success(job_id, serialized, file_format)
 
 

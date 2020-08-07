@@ -4,9 +4,9 @@ Mixins for Registrar API tests.
 import json
 from contextlib import contextmanager
 from time import time
+from unittest import mock
 
 import jwt
-import mock
 from django.conf import settings
 
 from registrar.apps.api.constants import TRACKING_CATEGORY
@@ -129,7 +129,7 @@ class JwtMixin:
     def generate_jwt_header(self, user, admin=False, ttl=5, **overrides):
         """Generate a jwt header value for AUTHORIZATION"""
         jwt_token = self.generate_id_token(user, admin, ttl, **overrides).decode('utf-8')
-        return 'JWT {token}'.format(token=jwt_token)
+        return f'JWT {jwt_token}'
 
 
 class AuthRequestMixin(JwtMixin):

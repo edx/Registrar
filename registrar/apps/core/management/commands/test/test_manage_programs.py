@@ -1,16 +1,14 @@
 """ Tests for manage_programs management command """
+from unittest.mock import patch
+
 import ddt
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
-from mock import patch
 
 from registrar.apps.core.discovery_cache import ProgramDetails
 from registrar.apps.core.models import Program
-from registrar.apps.core.tests.factories import (
-    OrganizationFactory,
-    ProgramFactory,
-)
+from registrar.apps.core.tests.factories import OrganizationFactory, ProgramFactory
 
 
 @ddt.ddt
@@ -70,7 +68,7 @@ class TestManagePrograms(TestCase):
             Program.objects.get(discovery_uuid=expected_uuid)
 
     def _uuidkeys(self, *uuidkeys):
-        return ','.join(["{}:{}".format(uuid, key) for (uuid, key) in uuidkeys])
+        return ','.join([f"{uuid}:{key}" for (uuid, key) in uuidkeys])
 
     def test_create_program(self):
         self.mock_get_discovery_program.return_value = self.arabic_discovery_program

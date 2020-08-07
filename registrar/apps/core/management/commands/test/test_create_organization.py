@@ -1,9 +1,10 @@
 """ Tests for create_organization management command """
+from unittest.mock import patch
+
 import ddt
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
-from mock import patch
 
 from registrar.apps.core.models import Organization
 from registrar.apps.core.permissions import (
@@ -59,7 +60,7 @@ class TestCreateOrganization(TestCase):
             self.assertEqual(len(qs), len(expected_groups))
             for group in expected_groups:
                 if len(group) == 1:
-                    group_name = '{}_{}'.format(org.name, role)
+                    group_name = f'{org.name}_{role}'
                 else:
                     group_name = group[1]
                 qs.get(name=group_name)  # will raise exception if not found

@@ -46,7 +46,7 @@ DB_OVERRIDES = dict(
 for override, value in DB_OVERRIDES.items():
     DATABASES['default'][override] = value
 
-BROKER_URL = "{0}://{1}:{2}@{3}/{4}".format(
+BROKER_URL = "{}://{}:{}@{}/{}".format(
     CELERY_BROKER_TRANSPORT,
     CELERY_BROKER_USER,
     CELERY_BROKER_PASSWORD,

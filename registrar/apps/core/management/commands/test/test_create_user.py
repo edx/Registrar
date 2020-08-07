@@ -1,15 +1,13 @@
 """ Tests for create_user management command """
+from unittest.mock import patch
+
 import ddt
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
-from mock import patch
 
 from registrar.apps.core.models import User
-from registrar.apps.core.tests.factories import (
-    OrganizationGroupFactory,
-    UserFactory,
-)
+from registrar.apps.core.tests.factories import OrganizationGroupFactory, UserFactory
 
 
 @ddt.ddt
@@ -43,7 +41,7 @@ class TestCreateUser(TestCase):
         self.assertEqual(user.email, expected_email)
         self.assertEqual(user.is_superuser, is_superuser)
         self.assertEqual(user.is_staff, is_staff)
-        self.assertEqual(set(group.name for group in user.groups.all()), set(expected_group_names or []))
+        self.assertEqual({group.name for group in user.groups.all()}, set(expected_group_names or []))
 
     def test_create_user(self):
         call_command(self.command, self.username, email=self.email)
@@ -81,7 +79,7 @@ class TestCreateUser(TestCase):
 
     def test_user_already_exists_username(self):
         UserFactory.create(username=self.username)
-        with self.assertRaisesRegex(CommandError, 'User {} already exists'.format(self.username)):
+        with self.assertRaisesRegex(CommandError, f'User {self.username} already exists'):
             call_command(self.command, self.username, email=self.email)
 
     def test_duplicate_groups(self):
@@ -98,5 +96,5 @@ class TestCreateUser(TestCase):
     @patch('registrar.apps.core.models.User.objects.get_or_create', autospec=True)
     def test_create_user_exception(self, mocked_create):
         mocked_create.side_effect = Exception('myexception')
-        with self.assertRaisesRegex(CommandError, 'Unable to create User {}. Cause: myexception'.format(self.username)):
+        with self.assertRaisesRegex(CommandError, f'Unable to create User {self.username}. Cause: myexception'):
             call_command(self.command, self.username, email=self.email)

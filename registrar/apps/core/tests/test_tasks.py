@@ -1,7 +1,8 @@
 """
 Tests for common tasks
 """
-import mock
+from unittest import mock
+
 from django.test import TestCase
 from user_tasks.models import UserTaskArtifact, UserTaskStatus
 

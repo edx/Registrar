@@ -8,29 +8,19 @@ import waffle
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.http import Http404
 from django.utils.functional import cached_property
-from edx_rest_framework_extensions.auth.jwt.authentication import (
-    JwtAuthentication,
-)
+from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import (
-    HTTP_200_OK,
-    HTTP_202_ACCEPTED,
-    HTTP_207_MULTI_STATUS,
-    HTTP_422_UNPROCESSABLE_ENTITY,
-)
+from rest_framework.status import HTTP_200_OK, HTTP_202_ACCEPTED, HTTP_207_MULTI_STATUS, HTTP_422_UNPROCESSABLE_ENTITY
 
 from registrar.apps.core import permissions as perms
 from registrar.apps.core.auth_checks import get_api_permissions_by_program
 from registrar.apps.core.filestore import get_enrollment_uploads_filestore
 from registrar.apps.core.jobs import start_job
 from registrar.apps.core.models import Program
-from registrar.apps.enrollments.lms_interop import (
-    write_course_run_enrollments,
-    write_program_enrollments,
-)
+from registrar.apps.enrollments.lms_interop import write_course_run_enrollments, write_program_enrollments
 
 from .. import exceptions
 from ..constants import ENROLLMENT_WRITE_MAX_SIZE
@@ -71,7 +61,7 @@ class ProgramSpecificViewMixin(TrackViewMixin):
         else:  # pragma: no cover
             raise ImproperlyConfigured(
                 'permission_required must be an APIPermission or iterable; ' +
-                'was {}'.format(self.permission_required)
+                f'was {self.permission_required}'
             )
 
     def check_permissions(self, request):
@@ -181,7 +171,7 @@ class JobInvokerMixin:
         """
         job_id = start_job(self.request.user, task_fn, *args, **kwargs)
         api_version = self.request.get_full_path().split('/')[2]
-        job_url = build_absolute_api_url('api:{}:job-status'.format(api_version), job_id=job_id)
+        job_url = build_absolute_api_url(f'api:{api_version}:job-status', job_id=job_id)
         data = {'job_id': job_id, 'job_url': job_url}
         return Response(JobAcceptanceSerializer(data).data, HTTP_202_ACCEPTED)
 

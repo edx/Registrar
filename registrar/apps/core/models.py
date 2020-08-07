@@ -34,7 +34,7 @@ class User(AbstractUser):
         Assumes user has authenticated at least once with edX Open ID Connect.
         """
         try:
-            return self.social_auth.first().extra_data[u'access_token']  # pylint: disable=no-member
+            return self.social_auth.first().extra_data['access_token']  # pylint: disable=no-member
         except Exception:  # pylint: disable=broad-except
             return None
 
@@ -42,7 +42,7 @@ class User(AbstractUser):
         get_latest_by = 'date_joined'
 
     def get_full_name(self):
-        return self.full_name or super(User, self).get_full_name()
+        return self.full_name or super().get_full_name()
 
     def __str__(self):
         """
@@ -296,7 +296,7 @@ class PendingUserGroup(TimeStampedModel):
         """
         Return human-readable string representation of this PendingUserGroup.
         """
-        return "pending membership of {} in {}".format(self.user_email, self.group)
+        return f"pending membership of {self.user_email} in {self.group}"
 
 
 class JobPermissionSupport(models.Model):

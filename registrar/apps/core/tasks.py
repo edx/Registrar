@@ -21,7 +21,7 @@ def debug_task(self, *args, **kwargs):
     A task for debugging.  Will dump the context of the task request
     to the log as a DEBUG message.
     """
-    log.debug('Request: {0!r}'.format(self.request))
+    log.debug(f'Request: {self.request!r}')
 
 
 # pylint: disable=unused-argument
@@ -40,5 +40,5 @@ def get_program(job_id, program_key):
     try:
         return Program.objects.get(key=program_key)
     except Program.DoesNotExist:
-        post_job_failure(job_id, "Bad program key: {}".format(program_key))
+        post_job_failure(job_id, f"Bad program key: {program_key}")
         return None

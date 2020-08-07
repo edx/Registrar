@@ -8,9 +8,9 @@ tested by our view tests.
 import json
 import uuid
 from posixpath import join as urljoin
+from unittest import mock
 
 import ddt
-import mock
 import responses
 from django.conf import settings
 from django.test import TestCase
@@ -18,10 +18,7 @@ from requests.exceptions import HTTPError
 from rest_framework.exceptions import ValidationError
 
 from registrar.apps.core.tests.factories import ProgramFactory
-from registrar.apps.core.tests.utils import (
-    mock_oauth_login,
-    patch_discovery_program_details,
-)
+from registrar.apps.core.tests.utils import mock_oauth_login, patch_discovery_program_details
 
 from ..lms_interop import (
     LMS_PROGRAM_COURSE_ENROLLMENTS_API_TPL,
@@ -30,10 +27,7 @@ from ..lms_interop import (
     get_program_enrollments,
 )
 from ..lms_interop import logger as data_logger
-from ..lms_interop import (
-    write_course_run_enrollments,
-    write_program_enrollments,
-)
+from ..lms_interop import write_course_run_enrollments, write_program_enrollments
 
 
 class GetEnrollmentsTestMixin:

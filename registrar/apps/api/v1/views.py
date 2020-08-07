@@ -11,16 +11,8 @@ import waffle
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
 from django.utils.functional import cached_property
-from edx_api_doc_tools import (
-    exclude_schema_for_all,
-    path_parameter,
-    query_parameter,
-    schema,
-    schema_for,
-)
-from edx_rest_framework_extensions.auth.jwt.authentication import (
-    JwtAuthentication,
-)
+from edx_api_doc_tools import exclude_schema_for_all, path_parameter, query_parameter, schema, schema_for
+from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.exceptions import ParseError
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -31,16 +23,10 @@ from rest_framework.status import HTTP_409_CONFLICT
 from rest_framework.views import APIView
 
 from registrar.apps.core import permissions as perms
-from registrar.apps.core.auth_checks import (
-    get_api_permissions_by_program,
-    get_programs_by_api_permission,
-)
+from registrar.apps.core.auth_checks import get_api_permissions_by_program, get_programs_by_api_permission
 from registrar.apps.core.csv_utils import load_records_from_uploaded_csv
 from registrar.apps.core.filestore import get_program_reports_filestore
-from registrar.apps.core.jobs import (
-    get_job_status,
-    get_processing_jobs_for_user,
-)
+from registrar.apps.core.jobs import get_job_status, get_processing_jobs_for_user
 from registrar.apps.core.models import Organization
 from registrar.apps.enrollments.tasks import (
     list_all_course_run_enrollments,
@@ -62,12 +48,7 @@ from ..serializers import (
     JobStatusSerializer,
     ProgramReportMetadataSerializer,
 )
-from .mixins import (
-    CourseSpecificViewMixin,
-    EnrollmentMixin,
-    JobInvokerMixin,
-    ProgramSpecificViewMixin,
-)
+from .mixins import CourseSpecificViewMixin, EnrollmentMixin, JobInvokerMixin, ProgramSpecificViewMixin
 
 
 logger = logging.getLogger(__name__)
@@ -654,7 +635,7 @@ class ReportsListView(ProgramSpecificViewMixin, APIView):
         Get a list of reports for a program.
         """
         filestore = get_program_reports_filestore()
-        file_prefix = '{}/{}'.format(self.program.managing_organization.key, self.program.discovery_uuid.hex)
+        file_prefix = f'{self.program.managing_organization.key}/{self.program.discovery_uuid.hex}'
         date_format_string = '%Y-%m-%d'
 
         reports_metadata = []

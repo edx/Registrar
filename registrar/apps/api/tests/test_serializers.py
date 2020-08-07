@@ -4,14 +4,8 @@ from django.test import TestCase
 
 from registrar.apps.api.serializers import DetailedProgramSerializer
 from registrar.apps.core.constants import PROGRAM_CACHE_KEY_TPL
-from registrar.apps.core.permissions import (
-    API_READ_METADATA,
-    API_WRITE_ENROLLMENTS,
-)
-from registrar.apps.core.tests.factories import (
-    OrganizationFactory,
-    ProgramFactory,
-)
+from registrar.apps.core.permissions import API_READ_METADATA, API_WRITE_ENROLLMENTS
+from registrar.apps.core.tests.factories import OrganizationFactory, ProgramFactory
 
 
 class DetailedProgramSerializerTests(TestCase):

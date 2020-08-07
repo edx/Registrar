@@ -39,5 +39,5 @@ class AbsoluteUrlTestCase(TestCase):
         job_id = uuid.uuid4()
         self.assertEqual(
             build_absolute_api_url('api:v1:job-status', job_id=job_id),
-            'http://localhost/api/v1/jobs/{}'.format(job_id),
+            f'http://localhost/api/v1/jobs/{job_id}',
         )
