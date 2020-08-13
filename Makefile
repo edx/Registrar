@@ -8,6 +8,7 @@ TOX=''
         fake_translations pull_translations push_translations \
         detect_changed_source_translations validate_translations api_generated \
         validate_api_committed
+        #TODO: Add docker.build docker.push docker.build.push
 
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
@@ -153,3 +154,66 @@ api_generated: ## generates an expanded verison of api.yaml for consuming tools 
 
 validate_api_committed: ## check to make sure any api.yaml changes have been committed to the expanded document
 	$(TOX)bash -c "diff .api-generated.yaml <(python scripts/yaml_merge.py api.yaml -)"
+
+
+# Docker commands below
+
+dev.build:
+	docker build . --tag openedx/registrar
+
+dev.push: dev.build
+	docker push openedx/registrar
+
+dev.build.push: dev.build dev.push # TODO
+
+dev.provision:
+	bash ./provision-catalog.sh
+
+dev.init: dev.up dev.migrate
+
+dev.makemigrations:
+	docker exec -it registrar.app bash -c 'cd /edx/app/registrar && python3 manage.py makemigrations'
+
+dev.migrate: # Migrates databases. Application and DB server must be up for this to work.
+	docker exec -it registrar.app bash -c 'cd /edx/app/registrar && make migrate'
+
+dev.up: # Starts all containers
+	docker-compose up -d
+
+dev.up.build:
+	docker-compose up -d --build
+
+dev.down: # Kills containers and all of their data that isn't in volumes
+	docker-compose downing
+
+dev.destroy: dev.down #Kills containers and destroys volumes. If you get an error after running this, also run: docker volume rm portal-designer_designer_mysql
+	docker volume rm registrar_mysql
+
+dev.stop: # Stops containers so they can be restarted
+	docker-compose stop
+
+%-shell: ## Run a shell, as root, on the specified service container
+	docker-compose exec -u 0 $* env TERM=$(TERM) bash
+
+%-logs: ## View the logs of the specified service container
+	docker-compose logs -f --tail=500 $*
+
+attach:
+	docker attach registrar.app
+
+docker_build:
+	docker build . --target app -t "openedx/registrar:latest"
+	docker build . --target newrelic -t "openedx/registrar:latest-newrelic"
+
+travis_docker_auth:
+	echo "$$DOCKER_PASSWORD" | docker login -u "$$DOCKER_USERNAME" --password-stdin
+
+travis_docker_tag: docker_build
+	docker build . --target app -t "openedx/registrar:$$TRAVIS_COMMIT"
+	docker build . --target newrelic -t "openedx/registrar:$$TRAVIS_COMMIT-newrelic"
+
+travis_docker_push: travis_docker_tag travis_docker_auth ## push to docker hub
+	docker push "openedx/registrar:latest"
+	docker push "openedx/registrar:$$TRAVIS_COMMIT"
+	docker push "openedx/registrar:latest-newrelic"
+	docker push "openedx/registrar:$$TRAVIS_COMMIT-newrelic"
