@@ -1,7 +1,6 @@
 """
 gunicorn configuration file: http://docs.gunicorn.org/en/develop/configure.html
 """
-import multiprocessing  # pylint: disable=unused-import
 
 
 preload_app = True

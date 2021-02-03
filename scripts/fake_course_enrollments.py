@@ -81,7 +81,7 @@ def generate_fake_enrollments(program_enrollments, count):
     course_enrollments = random.sample(program_enrollments, count)
     for enrollment in course_enrollments:
         choices, weights = STATUS_MAP[enrollment['status']]
-        enrollment['status'] = random.choices(choices, weights=weights)[0]  # pylint: disable=no-member
+        enrollment['status'] = random.choices(choices, weights=weights)[0]
     return course_enrollments
 
 

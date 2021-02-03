@@ -16,7 +16,7 @@ docutils==0.15.2
     # via
     #   -c requirements/constraints.txt
     #   sphinx
-edx-sphinx-theme==1.6.0
+edx-sphinx-theme==1.6.1
     # via -r requirements/docs.in
 idna==2.8
     # via
@@ -28,7 +28,7 @@ jinja2==2.11.2
     # via sphinx
 markupsafe==1.1.1
     # via jinja2
-pygments==2.7.3
+pygments==2.7.4
     # via sphinx
 pytz==2020.5
     # via babel
@@ -38,7 +38,7 @@ six==1.15.0
     # via
     #   edx-sphinx-theme
     #   sphinx
-snowballstemmer==2.0.0
+snowballstemmer==2.1.0
     # via sphinx
 sphinx==1.6.7
     # via
@@ -49,7 +49,7 @@ sphinxcontrib-serializinghtml==1.1.4
     # via sphinxcontrib-websupport
 sphinxcontrib-websupport==1.2.4
     # via sphinx
-urllib3==1.26.2
+urllib3==1.26.3
     # via requests
 
 # The following packages are considered to be unsafe in a requirements file:

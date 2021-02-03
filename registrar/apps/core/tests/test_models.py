@@ -92,7 +92,7 @@ class OrganizationGroupTests(TestCase):
     """ Tests for OrganizationGroup model """
 
     def setUp(self):
-        super(OrganizationGroupTests, self).setUp()
+        super().setUp()
         self.organization = OrganizationFactory()
         self.user = UserFactory()
 
@@ -187,7 +187,7 @@ class ProgramOrganizationGroupTests(TestCase):
     """ Tests for ProgramOrganizationGroup model """
 
     def setUp(self):
-        super(ProgramOrganizationGroupTests, self).setUp()
+        super().setUp()
         self.program = ProgramFactory()
         self.user = UserFactory()
 

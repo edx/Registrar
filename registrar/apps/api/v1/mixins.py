@@ -103,9 +103,9 @@ class ProgramSpecificViewMixin(TrackViewMixin):
         program_key = self.kwargs['program_key']
         try:
             return Program.objects.get(key=program_key)
-        except Program.DoesNotExist:
+        except Program.DoesNotExist as err:
             self.add_tracking_data(failure='program_not_found')
-            raise Http404()
+            raise Http404() from err
 
 
 class CourseSpecificViewMixin(ProgramSpecificViewMixin):

@@ -137,8 +137,8 @@ class RegistrarAPITestCase(TrackTestMixin, APITestCase):
             organization=cls.stem_org,
             role=perms.OrganizationReadMetadataRole.name
         )
-        cls.stem_admin.groups.add(cls.stem_admin_group)  # pylint: disable=no-member
-        cls.stem_user.groups.add(cls.stem_user_group)  # pylint: disable=no-member
+        cls.stem_admin.groups.add(cls.stem_admin_group)
+        cls.stem_user.groups.add(cls.stem_user_group)
 
         cls.hum_org = OrganizationFactory(name='Humanities College')
         cls.phil_program = ProgramFactory(
@@ -171,8 +171,8 @@ class RegistrarAPITestCase(TrackTestMixin, APITestCase):
             organization=cls.hum_org,
             role=perms.OrganizationReadReportRole.name
         )
-        cls.hum_admin.groups.add(cls.hum_admin_group)  # pylint: disable=no-member
-        cls.hum_admin.groups.add(cls.hum_data_op_group)  # pylint: disable=no-member
+        cls.hum_admin.groups.add(cls.hum_admin_group)
+        cls.hum_admin.groups.add(cls.hum_data_op_group)
 
         cls.program_user = UserFactory(username='english-program-user')
         cls.program_group = ProgramOrganizationGroupFactory(
@@ -180,7 +180,7 @@ class RegistrarAPITestCase(TrackTestMixin, APITestCase):
             program=cls.english_program,
             role=perms.ProgramReadMetadataRole.name
         )
-        cls.program_user.groups.add(cls.program_group)  # pylint: disable=no-member
+        cls.program_user.groups.add(cls.program_group)
 
         cls.cs_program_admin = UserFactory(username='cs-program-admin')
         cls.cs_program_admin_group = ProgramOrganizationGroupFactory(
@@ -188,7 +188,7 @@ class RegistrarAPITestCase(TrackTestMixin, APITestCase):
             program=cls.cs_program,
             role=perms.ProgramReadWriteEnrollmentsRole.name
         )
-        cls.cs_program_admin.groups.add(cls.cs_program_admin_group)  # pylint: disable=no-member
+        cls.cs_program_admin.groups.add(cls.cs_program_admin_group)
 
     def setUp(self):
         super().setUp()
@@ -554,7 +554,7 @@ class ProgramListViewTests(RegistrarAPITestCase, AuthRequestMixin):
             if test_program_group else [OrganizationGroup.objects.get(name=name) for name in groups]
         user = UserFactory(groups=org_or_program_groups)
         if global_perm:
-            user.groups.add(self.global_read_and_write_group)  # pylint: disable=no-member
+            user.groups.add(self.global_read_and_write_group)
 
         query = []
         tracking_kwargs = {}
@@ -654,7 +654,7 @@ class ProgramListViewTests(RegistrarAPITestCase, AuthRequestMixin):
         org_groups = [OrganizationGroup.objects.get(name=name) for name in groups]
         user = UserFactory(groups=org_groups)
         if global_perm:
-            user.groups.add(self.global_read_and_write_group)  # pylint: disable=no-member
+            user.groups.add(self.global_read_and_write_group)
 
         with self.assert_tracking(
                 user=user,

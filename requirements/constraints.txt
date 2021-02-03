@@ -19,10 +19,6 @@ django-storages<1.9
 mock<4.0.0
 zipp<2.0.0
 
-# A lot of quality failures coming on newer versions, opened BOM-2193 ticket for fixing those.
-edx-lint==1.5.2
-pylint==2.4.4
-
 # Stay on latest LTS release
 Django>=2.2,<3.0
 
@@ -44,3 +40,9 @@ PyYAML==5.1           # https://github.com/edx/registrar/pull/48
 # Constraints required to resolve requirements in docs.in and test.in
 docutils==0.15.2
 idna==2.8
+
+# Latest version requires PyJWT>=2.0.0 but drf-jwt requires PyJWT[crypto]<2.0.0,>=1.5.2
+social-auth-core<4.0.3
+
+# Latest version requires Python 3.6+
+newrelic<6.0

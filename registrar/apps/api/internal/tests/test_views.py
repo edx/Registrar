@@ -24,7 +24,7 @@ class FlushCacheTests(RegistrarAPITestCase, AuthRequestMixin):
         cls.edx_staff_user = UserFactory(is_staff=True)
 
     def setUp(self):
-        super(FlushCacheTests, self).setUp()
+        super().setUp()
         cache.clear()
         self.programs = [
             self.cs_program,
@@ -37,7 +37,7 @@ class FlushCacheTests(RegistrarAPITestCase, AuthRequestMixin):
         self.assert_programs_in_cache()
 
     def tearDown(self):
-        super(FlushCacheTests, self).tearDown()
+        super().tearDown()
         cache.clear()
 
     def assert_programs_in_cache(self, cs=True, mech=True, phil=True, english=True):

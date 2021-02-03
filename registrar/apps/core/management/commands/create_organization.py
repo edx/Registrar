@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 discovery_uuid=uuid.uuid4(),
             )
         except Exception as e:
-            raise CommandError('Unable to create Organization. cause: {}'.format(e))
+            raise CommandError('Unable to create Organization. cause: {}'.format(e)) from e
         logger.info('Created Organization {}'.format(org.key))
         return org
 
@@ -76,5 +76,5 @@ class Command(BaseCommand):
                 role=group_role,
             )
         except Exception as e:
-            raise CommandError('Unable to create OrganizationGroup {}. cause: {}'.format(group_name, e))
+            raise CommandError('Unable to create OrganizationGroup {}. cause: {}'.format(group_name, e)) from e
         logger.info('Created OrganizationGroup {} with role {}'.format(group_name, group_role))

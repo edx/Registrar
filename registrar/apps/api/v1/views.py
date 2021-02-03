@@ -183,9 +183,9 @@ class ProgramListView(TrackViewMixin, ListAPIView):
         if org_key:
             try:
                 return Organization.objects.get(key=org_key)
-            except Organization.DoesNotExist:
+            except Organization.DoesNotExist as err:
                 self.add_tracking_data(failure='org_not_found')
-                raise Http404()
+                raise Http404() from err
         else:
             return None
 
@@ -202,9 +202,9 @@ class ProgramListView(TrackViewMixin, ListAPIView):
             return perms.API_READ_METADATA
         try:
             return perms.API_PERMISSIONS_BY_NAME[perm_query_param]
-        except KeyError:
+        except KeyError as err:
             self.add_tracking_data(failure='no_such_perm')
-            raise Http404()
+            raise Http404() from err
 
 
 @schema_for(
@@ -325,7 +325,7 @@ class ProgramEnrollmentView(EnrollmentMixin, JobInvokerMixin, APIView):
             **SCHEMA_COMMON_RESPONSES,
         },
     )
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
         """
         Request program enrollment data
 
@@ -360,7 +360,7 @@ class ProgramEnrollmentView(EnrollmentMixin, JobInvokerMixin, APIView):
             **SCHEMA_COMMON_RESPONSES,
         },
     )
-    def post(self, request, program_key):
+    def post(self, request, program_key):  # pylint: disable=unused-argument
         """
         Enroll students in a program
 
@@ -407,7 +407,7 @@ class ProgramEnrollmentView(EnrollmentMixin, JobInvokerMixin, APIView):
             **SCHEMA_COMMON_RESPONSES,
         },
     )
-    def patch(self, request, program_key):
+    def patch(self, request, program_key):  # pylint: disable=unused-argument
         """
         Modify program enrollments
 
@@ -508,7 +508,7 @@ class CourseEnrollmentView(CourseSpecificViewMixin, JobInvokerMixin, EnrollmentM
             **SCHEMA_COMMON_RESPONSES,
         },
     )
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
         """
         Request course enrollment data
 
@@ -551,7 +551,7 @@ class CourseEnrollmentView(CourseSpecificViewMixin, JobInvokerMixin, EnrollmentM
             **SCHEMA_COMMON_RESPONSES,
         },
     )
-    def post(self, request, program_key, course_id):
+    def post(self, request, program_key, course_id):  # pylint: disable=unused-argument
         """
         Enroll students in a course
 
@@ -589,7 +589,7 @@ class CourseEnrollmentView(CourseSpecificViewMixin, JobInvokerMixin, EnrollmentM
             **SCHEMA_COMMON_RESPONSES,
         },
     )
-    def patch(self, request, program_key, course_id):
+    def patch(self, request, program_key, course_id):  # pylint: disable=unused-argument
         """
         Modify program course enrollments
 
@@ -659,9 +659,9 @@ class JobStatusRetrieveView(TrackViewMixin, RetrieveAPIView):
         except PermissionDenied:
             self.add_tracking_data(missing_permissions=[perms.JOB_GLOBAL_READ])
             raise
-        except ObjectDoesNotExist:
+        except ObjectDoesNotExist as error:
             self.add_tracking_data(failure='job_not_found')
-            raise Http404()
+            raise Http404() from error
         self.add_tracking_data(job_state=status.state)
         return status
 
@@ -798,7 +798,7 @@ class CourseRunEnrollmentDownloadView(EnrollmentMixin, JobInvokerMixin, APIView)
         'fmt': 'result_format',
     }
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
         """
         Submit a user task that retrieves course run enrollment data for the given program.
         """
@@ -850,7 +850,7 @@ class CourseGradesView(CourseSpecificViewMixin, JobInvokerMixin, APIView):
             **SCHEMA_COMMON_RESPONSES,
         },
     )
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
         """
         Request course run grade data
 
@@ -930,7 +930,7 @@ class ReportsListView(ProgramSpecificViewMixin, APIView):
         description=('This endpoint returns a list of all reports specified by the program_key. '
                      'If a min_created_date is given, only reports created after that date will be returned.')
     )
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
         """
         Get a list of reports for a program.
         """

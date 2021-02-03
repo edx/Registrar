@@ -21,7 +21,7 @@ class HandleUserPostSaveTests(TestCase):
     Tests for the handle_user_post_save
     """
     def setUp(self):
-        super(HandleUserPostSaveTests, self).setUp()
+        super().setUp()
         self.organization_group = OrganizationGroupFactory()
         self.program_group = ProgramOrganizationGroupFactory()
         self.user_email = 'test@edx.org'

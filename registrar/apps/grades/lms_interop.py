@@ -42,7 +42,7 @@ def get_course_run_grades(program_uuid, internal_course_key, client=None):
     try:
         responses = get_all_paginated_responses(url, client, expected_error_codes={HTTP_422_UNPROCESSABLE_ENTITY})
     except json.JSONDecodeError as e:
-        raise ValidationError(e)
+        raise ValidationError(e) from e
 
     any_successes = False
     any_failures = False

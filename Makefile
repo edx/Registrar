@@ -105,7 +105,7 @@ yamllint:  # run yamlint
 	$(TOX)yamllint *.yaml
 
 isort_check: ## check that isort has been run
-	$(TOX)isort --check-only -rc registrar/ scripts/
+	$(TOX)isort --check-only registrar/ scripts/
 
 isort: ## run isort to sort imports in all Python files
 	$(TOX)isort --recursive --atomic registrar scripts

@@ -42,7 +42,7 @@ class User(AbstractUser):
         get_latest_by = 'date_joined'
 
     def get_full_name(self):
-        return self.full_name or super(User, self).get_full_name()
+        return self.full_name or super().get_full_name()
 
     def __str__(self):
         """
@@ -180,8 +180,7 @@ class OrganizationGroup(Group):
                 return role
         return None  # pragma: no cover
 
-    # pylint: disable=arguments-differ
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):  # pylint: disable=signature-differs
         super().save(*args, **kwargs)
         if self._initial_organization:  # pragma: no branch
             for perm in perms.ORGANIZATION_PERMISSIONS:
@@ -249,8 +248,7 @@ class ProgramOrganizationGroup(Group):
                 return role
         return None  # pragma: no cover
 
-    # pylint: disable=arguments-differ
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):  # pylint: disable=signature-differs
         super().save(*args, **kwargs)
         if self._initial_program:  # pragma: no branch
             for perm in perms.PROGRAM_PERMISSIONS:
