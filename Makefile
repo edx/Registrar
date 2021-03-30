@@ -63,6 +63,7 @@ upgrade: piptools  ## re-compile requirements .txt files from .in files
 	mv requirements/test.tmp requirements/test.txt
 
 piptools:
+	pip install -r requirements/pip.txt
 	pip install -r requirements/pip-tools.txt
 
 requirements: devstack-requirements ## alias to make devstack-requirements
@@ -153,6 +154,7 @@ validate_translations: fake_translations detect_changed_source_translations ## i
 docker_build:
 	docker build . --target app -t "openedx/registrar:latest"
 	docker build . --target newrelic -t "openedx/registrar:latest-newrelic"
+	docker build . --target devstack -t "openedx/registrar:latest-devstack"
 
 docker_auth:
 	echo "$$DOCKERHUB_PASSWORD" | docker login -u "$$DOCKERHUB_USERNAME" --password-stdin
@@ -160,9 +162,12 @@ docker_auth:
 docker_tag: docker_build
 	docker build . --target app -t "openedx/registrar:${GITHUB_SHA}"
 	docker build . --target newrelic -t "openedx/registrar:${GITHUB_SHA}-newrelic"
+	docker build . --target devstack -t "openedx/registrar:${GITHUB_SHA}-devstack"
 
 docker_push: docker_tag docker_auth ## push to docker hub
 	docker push "openedx/registrar:latest"
 	docker push "openedx/registrar:${GITHUB_SHA}"
 	docker push "openedx/registrar:latest-newrelic"
 	docker push "openedx/registrar:${GITHUB_SHA}-newrelic"
+	docker push "openedx/registrar:latest-devstack"
+	docker push "openedx/registrar:${GITHUB_SHA}-devstack"
