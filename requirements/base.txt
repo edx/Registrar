@@ -21,7 +21,7 @@ certifi==2021.5.30
     # via requests
 cffi==1.14.6
     # via cryptography
-chardet==4.0.0
+charset-normalizer==2.0.2
     # via requests
 coreapi==2.3.3
     # via drf-yasg
@@ -80,7 +80,7 @@ django-storages==1.8
     #   -r requirements/base.in
 django-user-tasks==2.1.0
     # via -r requirements/base.in
-django-waffle==2.2.0
+django-waffle==2.2.1
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -101,21 +101,21 @@ drf-jwt==1.19.0
     #   edx-drf-extensions
 drf-yasg==1.20.0
     # via edx-api-doc-tools
-edx-api-doc-tools==1.4.0
+edx-api-doc-tools==1.4.3
     # via -r requirements/base.in
 edx-auth-backends==3.4.0
     # via -r requirements/base.in
 edx-django-release-util==1.0.0
     # via -r requirements/base.in
-edx-django-utils==4.1.0
+edx-django-utils==4.2.0
     # via
     #   edx-drf-extensions
     #   edx-rest-api-client
-edx-drf-extensions==6.5.0
+edx-drf-extensions==6.6.0
     # via -r requirements/base.in
 edx-opaque-keys==2.2.2
     # via edx-drf-extensions
-edx-rest-api-client==5.3.0
+edx-rest-api-client==5.4.0
     # via -r requirements/base.in
 future==0.18.2
     # via pyjwkest
@@ -162,11 +162,11 @@ pyjwt[crypto]==1.7.1
     #   edx-auth-backends
     #   edx-rest-api-client
     #   social-auth-core
-pymongo==3.11.4
+pymongo==3.12.0
     # via edx-opaque-keys
 pyparsing==2.4.7
     # via packaging
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via
     #   analytics-python
     #   edx-drf-extensions
@@ -181,7 +181,7 @@ pyyaml==5.4.1
     # via edx-django-release-util
 redis==3.5.3
     # via -r requirements/base.in
-requests==2.25.1
+requests==2.26.0
     # via
     #   analytics-python
     #   coreapi
