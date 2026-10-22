@@ -96,7 +96,7 @@ celery==5.5.3
     #   -r requirements/monitoring/../production.txt
     #   -r requirements/monitoring/../test.txt
     #   django-user-tasks
-certifi==2025.8.3
+certifi==2026.10.19
     # via
     #   -r requirements/monitoring/../devstack.txt
     #   -r requirements/monitoring/../local.txt
